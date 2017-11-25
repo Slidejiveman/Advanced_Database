@@ -1,0 +1,12 @@
+CREATE TABLE adult_ryder_walton(age INT, workclass STRING, fnlwgt INT, education STRING, 
+                                educationNum INT, maritalStatus STRING, occupation STRING,
+                                relationship STRING, race STRING, sex STRING, 
+                                capitalGain INT, capitalLoss INT, hoursPerWeek INT, 
+                                nativeCountry STRING, income STRING)
+ROW FORMAT DELIMITED
+        FIELDS TERMINATED BY ',';
+LOAD DATA INPATH '/user/ryder.walton/adult' INTO TABLE adult_ryder_walton;
+SELECT SUM(age) FROM adult_ryder_walton;
+SELECT COUNT(*) FROM adult_ryder_walton GROUP BY nativeCountry;
+SELECT COUNT(*) FROM adult_ryder_walton WHERE income = ' >50K' GROUP BY occupation;
+SELECT COUNT(*) FROM adult_ryder_walton WHERE nativeCountry <> ' United States' GROUP BY race;

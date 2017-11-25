@@ -1,0 +1,21 @@
+val books = sc.textFile("hdfs://10.4.2.111/user/ryder.walton/books")
+
+// Question 1
+val stackLineCount = books.filter( line => line.contains("stack") ).count
+
+// Question 2
+def charCount(letter : Char, line : String): Int = {
+    return line.filter( _.equals(letter) ).length
+}
+val charRCount = books.map( _.toUpperCase ).map(charCount('R', _)).reduce(_+_)
+
+// Question 3
+val avgLineLength = books.map( _.length ).sum / books.count
+
+// Question 4
+// https://rosettacode.org/wiki/Count_occurrences_of_a_substring#Java
+def strCount(str1 : String, str2 : String): Int = {
+    return (str2.length() - str2.replace(str1, "").length()) / str1.length();
+}
+val listCounts = Array("w","wa","wal","walt","walto","walton").map(_.toLowerCase).map(
+                           x => (x, books.map(line => strCount(x, line)).sum))

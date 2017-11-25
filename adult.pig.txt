@@ -1,0 +1,18 @@
+A = LOAD 'adult' USING PigStorage(',') AS (age:int,workclass:chararray,fnlwgt:int,education:chararray,educationNum:int,maritalStatus:chararray,occupation:chararray,relationship:chararray, race:chararray,sex:chararray,capitalGain:int,capitalLoss:int,hoursPerWeek:int,nativeCountry:chararray,income:chararray);
+B = GROUP A ALL;                             --You need to group everything you've read together.
+C = FOREACH B GENERATE SUM(A.age) AS ageSum; --generate tells it what to make
+STORE C INTO 'adult_ageSum';
+
+D = GROUP A BY nativeCountry;
+E = FOREACH D GENERATE group, COUNT(A) AS nationalityCount; --A becomes field of D! 
+STORE E INTO 'adult_countryCount';
+
+F = FILTER A BY(income==' >50K');            --filter before you group!
+G = GROUP F BY occupation;
+H = FOREACH G GENERATE group, COUNT(F) AS incomeCount; --group is in each object after A
+STORE H INTO 'adult_incomeCount';
+
+I = FILTER A BY(nativeCountry!=' United-States');
+J = GROUP I BY race;
+K = FOREACH J GENERATE group, COUNT(I) AS nonNativeRaceCount;
+STORE K INTO 'adult_nonNativeRaceCount';

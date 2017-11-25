@@ -1,0 +1,11 @@
+CREATE TABLE social_ryder_walton (friends ARRAY<BIGINT>)
+ROW FORMAT DELIMITED
+        COLLECTION ITEMS TERMINATED BY ' ';
+LOAD DATA INPATH '/user/ryder.walton/social' INTO TABLE social_ryder_walton;
+
+CREATE TABLE social_ryder_walton_values (friends ARRAY<BIGINT>)
+ROW FORMAT DELIMITED
+        COLLECTION ITEMS TERMINATED BY ' ';
+LOAD DATA INPATH '/user/ryder.walton/social' INTO TABLE social_ryder_walton_values;
+
+SELECT friends FROM social_ryder_walton; 
